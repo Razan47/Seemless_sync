@@ -58,7 +58,7 @@ const ChatContainer = ({ sessionId, userId, socket, onLeave, theme, toggleTheme 
       formData.append('image', currentAttachment);
 
       try {
-        await axios.post('/api/upload', formData, {
+        await axios.post('https://seemless-sync.onrender.com/api/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       } catch (error) {
@@ -134,7 +134,7 @@ const ChatContainer = ({ sessionId, userId, socket, onLeave, theme, toggleTheme 
                   <span>{msg.content}</span>
                 ) : (
                   <img 
-                    src={msg.content} 
+                    src={msg.content.startsWith('/uploads') ? `https://seemless-sync.onrender.com${msg.content}` : msg.content} 
                     alt="Shared content" 
                     className="message-image" 
                     onClick={() => setSelectedImage(msg.content)}
@@ -150,7 +150,7 @@ const ChatContainer = ({ sessionId, userId, socket, onLeave, theme, toggleTheme 
                     <Copy size={12} /> Copy
                   </button>
                 ) : (
-                  <a className="action-btn" href={msg.content} download target="_blank" rel="noreferrer">
+                  <a className="action-btn" href={msg.content.startsWith('/uploads') ? `https://seemless-sync.onrender.com${msg.content}` : msg.content} download target="_blank" rel="noreferrer">
                     <Download size={12} /> Save
                   </a>
                 )}
@@ -224,7 +224,7 @@ const ChatContainer = ({ sessionId, userId, socket, onLeave, theme, toggleTheme 
              <button className="icon-btn modal-close" onClick={() => setSelectedImage(null)} style={{ background: 'rgba(0,0,0,0.5)', color: 'white', top: '-2rem', right: '-2rem' }}>
               <X size={24} />
             </button>
-             <img src={selectedImage} alt="Fullscreen" className="modal-image" />
+             <img src={selectedImage?.startsWith('/uploads') ? `https://seemless-sync.onrender.com${selectedImage}` : selectedImage} alt="Fullscreen" className="modal-image" />
           </div>
         </div>
       )}

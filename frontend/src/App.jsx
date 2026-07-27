@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import SessionSetup from './components/SessionSetup';
 import ChatContainer from './components/ChatContainer';
 
-// Assuming Vite proxy redirects /socket.io to backend
-const socket = io();
+// Using Render backend for production
+const socket = io('https://seemless-sync.onrender.com');
 
 function App() {
   const [sessionId, setSessionId] = useState(null);
